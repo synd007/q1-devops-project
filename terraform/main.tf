@@ -108,7 +108,7 @@ resource "aws_db_subnet_group" "main" {
 
 resource "aws_db_instance" "postgres" {
   allocated_storage    = 20
-  db_name              = "mydevopsproject-db"
+  db_name              = "mydevopsprojectdb"
   engine               = "postgres"
   engine_version       = "15"
   instance_class       = "db.t3.micro"
@@ -162,10 +162,10 @@ resource "aws_security_group" "rds" {
   }
 
   egress {
-    from_port   = 5432
-    to_port     = 5432
-    protocol    = "tcp"
-    cidr_blocks = [aws_security_group.eks.id]
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
   }
 
   tags = {
@@ -257,6 +257,7 @@ resource "aws_eks_cluster" "main" {
 resource "aws_eks_node_group" "main" {
   cluster_name    = aws_eks_cluster.main.name
   node_group_name = "dp-node-group"
+  ami_type = "AL2_x86_64"
   node_role_arn   = aws_iam_role.eks_nodes.arn
   subnet_ids      = [aws_subnet.pub1.id, aws_subnet.pub2.id]
 
