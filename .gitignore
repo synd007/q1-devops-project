@@ -1,0 +1,12 @@
+terraform/.terraform/
+terraform/.terraform.lock.hcl
+terraform/terraform.tfstate
+terraform/terraform.tfstate.backup
+*.tfvars
+
+# AWS credentials
+aws-keys.txt
+.aws/
+
+# General
+.DS_Store
