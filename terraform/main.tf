@@ -287,3 +287,22 @@ resource "aws_eks_node_group" "main" {
     Name = "dp-node-group"
   }
 }
+
+resource "aws_iam_user" "cicd" {
+  name = "terraform-user"
+}
+
+resource "aws_iam_user_policy_attachment" "cicd_ecr" {
+  user       = aws_iam_user.cicd.name
+  policy_arn = "arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryFullAccess"
+}
+
+resource "aws_iam_user_policy_attachment" "cicd_eks" {
+  user       = aws_iam_user.cicd.name
+  policy_arn = "arn:aws:iam::aws:policy/AmazonEKSClusterPolicy"
+}
+
+resource "aws_iam_user_policy_attachment" "cicd_eks_cni" {
+  user       = aws_iam_user.cicd.name
+  policy_arn = "arn:aws:iam::aws:policy/AmazonEKS_CNI_Policy"
+}
