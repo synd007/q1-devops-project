@@ -306,3 +306,23 @@ resource "aws_iam_user_policy_attachment" "cicd_eks_cni" {
   user       = aws_iam_user.cicd.name
   policy_arn = "arn:aws:iam::aws:policy/AmazonEKS_CNI_Policy"
 }
+
+resource "aws_iam_user_policy" "cicd_eks_access" {
+  name = "cicd-eks-access"
+  user = aws_iam_user.cicd.name
+
+  policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Effect = "Allow"
+        Action = [
+          "eks:DescribeCluster",
+          "eks:ListClusters",
+          "eks:AccessKubernetesApi"
+        ]
+        Resource = "*"
+      }
+    ]
+  })
+}
