@@ -34,6 +34,11 @@ jobs:
         run: |
           aws eks update-kubeconfig --region ${{ secrets.AWS_REGION }} --name dp-cluster
 
+
+      - name: Apply aws-auth
+        run: kubectl apply -f kubernetes/aws-auth.yaml
+
+
       - name: Create Kubernetes secret
         run: |
           kubectl create secret generic devops-app-secret \
